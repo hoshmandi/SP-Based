@@ -11,6 +11,12 @@
 </head>
 <body>
     <div id="main"></div>
+    <div id="debug" style="margin:30px auto; width:500px">
+        <table>
+            <thead style="background-color:#999; color:#fff"><tr><td>iSP</td><td>rawDate</td><td>Result</td></tr></thead>
+            <tbody></tbody>
+        </table>
+    </div>
     <input type="hidden" data-sp="100" />
 </body>
 </html>
@@ -32,6 +38,7 @@
                 if (Result.indexOf('-1©') == 0) alert(Result.split('©')[1]); 
                 else if (Result == '1') alert('Operation Succefully executed');
                 else $('#main').html(Result);
+                $('#debug tbody').after('<tr><td>' + curElm.attr('data-sp') + '</td><td>' + inp + '</td><td></td></tr>');
             });
         });
         $("[data-sp='100']").trigger('click');
