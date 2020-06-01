@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style> 
+        #main {max-width: 600px;width: 100%;border: 1px solid #999;margin: auto;background-color: #ededed;padding: 10px;}
+        [data-sp]{cursor:pointer; font-weight:bold}
+        table{border-collapse:collapse; border:2px solid #999; background-color:#fff; width:500px}
+        td{border:1px solid #999; text-align:center}
+    </style>
+</head>
+<body>
+    <div id="main"></div>
+    <input type="hidden" data-sp="100" />
+</body>
+</html>
+<script src="jquery-1.10.2.min.js"></script>
+<script>
+    $(function () {
+        $('body').on('click', '[data-sp]', function (e) {
+            curElm = $(this);
+            inp = '';
+            if (curElm.attr('data-in') != undefined) { inp = curElm.attr('data-in') }
+            else if (curElm.attr('data-del') != undefined) {
+                if (!confirm('Are you sure?')) return false;
+                inp = curElm.attr('data-del');
+            }
+            $('#main input').each(function () { inp += $(this).val() + '©'; });
+
+            $.post('sp.aspx', { isp: curElm.attr('data-sp'), in: inp },function (Result, status) {
+                resServer = Result
+                if (Result.indexOf('-1©') == 0) alert(Result.split('©')[1]); 
+                else if (Result == '1') alert('Operation Succefully executed');
+                else $('#main').html(Result);
+            });
+        });
+        $("[data-sp='100']").trigger('click');
+    });
+</script>
+
